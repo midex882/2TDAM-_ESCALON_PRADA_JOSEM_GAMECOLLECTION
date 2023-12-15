@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background">#170D04</color>
+    <color name="defeat">#0F0F0F</color>
+    <color name="pale_red">#F73223</color>
+    <color name="dark_red">#7A0800</color>
+    <color name="victory">#BBB3A5</color>
+    <color name="golden">#98773B</color>
+    <color name="brown">#303030</color>
+    <color name="dark_grey">#181818</color>
+    <color name="orange">#FF6716</color>
+    <color name="grey">#1F1F1F</color>
+    <color name="cream">#FFF3E2</color>
+    <color name="background2">#505050</color>
+    <color name="dark_cream">#DDCABB</color>
+    <color name="next_operation">#D14B16</color>
+    <color name="dark_green">#2B7134</color>
+</resources>

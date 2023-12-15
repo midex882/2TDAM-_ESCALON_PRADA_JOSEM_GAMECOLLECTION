@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="time">20000</string>
+    <integer name="max">10</integer>
+    <array name="operands">
+        <item>*</item>
+        <item>+</item>
+        <item>-</item>
+        <item>/</item>
+    </array>
+    <string name="rights">0</string>
+    <string name="wrongs">0</string>
+    <array name="history">
+    </array>
+</resources>
