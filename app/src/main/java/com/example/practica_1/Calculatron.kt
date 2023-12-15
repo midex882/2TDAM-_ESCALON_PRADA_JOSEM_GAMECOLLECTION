@@ -1,5 +1,6 @@
 package com.example.practica_1
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +51,7 @@ class Calculatron : AppCompatActivity() {
     lateinit var total_wrongs_results : TextView
     lateinit var shared_preferences : SharedPreferences
     lateinit var game_over_constraintLayout : ConstraintLayout
+    lateinit var configuration_imageView : ImageView
 
     fun start_timer()
     {
@@ -266,6 +269,7 @@ class Calculatron : AppCompatActivity() {
         wrongs_textView = findViewById(R.id.wrongs)
         progressbar = findViewById(R.id.progressbar)
         main = findViewById(R.id.main)
+        configuration_imageView = findViewById(R.id.configuration_imageView)
 
 //        shared_preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
 //        shared_preferences = getSharedPreferences("shared.xml", 0)
@@ -286,6 +290,11 @@ class Calculatron : AppCompatActivity() {
                 insert_number(element.text.toString())
                 Log.v("clicked:", element.text.toString())
             }
+        }
+
+        configuration_imageView.setOnClickListener {
+            val intent = Intent(this, Configuration::class.java)
+            startActivity(intent)
         }
 
         ce.setOnClickListener {
