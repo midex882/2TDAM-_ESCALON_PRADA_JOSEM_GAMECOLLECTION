@@ -1,0 +1,19 @@
+<resources>
+    <integer name="time_left">20000</integer>
+    <integer name="max">10</integer>
+    <integer name="min">0</integer>
+    <bool name="add">true</bool>
+    <bool name="subtract">true</bool>
+    <bool name="multiply">true</bool>
+    <bool name="divide">true</bool>
+    <array name="operands">
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+        <item>true</item>
+    </array>
+    <integer name="rights">0</integer>
+    <integer name="wrongs">0</integer>
+    <array name="history">
+    </array>
+</resources>

@@ -17,4 +17,6 @@
     <color name="dark_cream">#DDCABB</color>
     <color name="next_operation">#D14B16</color>
     <color name="dark_green">#2B7134</color>
+    <color name="wrong_red">#2FAD362E</color>
+    <color name="success_green">#2F3BAD2E</color>
 </resources>

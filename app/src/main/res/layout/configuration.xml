@@ -114,22 +114,30 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="suma" />
-        <CheckBox android:id="@+id/checkbox_substract"
+            android:text="+" />
+        <CheckBox android:id="@+id/checkbox_subtract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="resta"/>
-        <CheckBox android:id="@+id/checkbox_multuply"
+            android:text="-"/>
+        <CheckBox android:id="@+id/checkbox_multiply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="multiplicación"/>
+            android:text="*"/>
+
+        <CheckBox android:id="@+id/checkbox_divide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="/"/>
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"

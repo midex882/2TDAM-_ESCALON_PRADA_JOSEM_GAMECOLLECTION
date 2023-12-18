@@ -1,5 +1,6 @@
 package com.example.practica_1
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -30,6 +31,8 @@ class Calculatron : AppCompatActivity() {
     var wrongs = 0
     var total_rights = 0
     var total_wrongs = 0
+    var max = 10
+    var min = 0
     lateinit var operands : MutableList<String>
     lateinit var main : ConstraintLayout
     lateinit var rights_textView : TextView
@@ -124,33 +127,65 @@ class Calculatron : AppCompatActivity() {
     fun generate_operation(next : Boolean = false)
     {
         var answer = ""
-        var n1 = Random.nextInt(1, 10)
-        var n2 = Random.nextInt(1,10)
-        var op = Random.nextInt(0,2)
-        var operand = when(op){
-            0 ->  "*"
-            1 -> "+"
-            2 -> "-"
-//            3 -> "/"
-            else -> "ç̶̧̨̩̻̯̗̺̜͎͚̖͉̗̘͔͔̦̮̖̙̫̞̘͉̘̱͈͚̥͎̇̆̈̋̿̔̔͒̇̔̀̀̎̎͆̐͆͋̉̃̾͝"
+        var n1 = Random.nextInt(min, max)
+        var n2 = Random.nextInt(min,max)
+        var operators = mutableListOf<String>()
+        if(get_shared_preference("add", "boolean", true) as Boolean)
+        {
+            operators.add("+")
         }
-        answer =  when(op){
-            0 -> (n1 * n2)
-            1 -> (n1 + n2)
-            2 -> (n1 - n2)
-//            3 -> (n1 / n2)
-            else -> -1
-        }.toString()
+
+        if(get_shared_preference("multiply", "boolean", true) as Boolean)
+        {
+            operators.add("*")
+        }
+
+        if(get_shared_preference("subtract", "boolean", true) as Boolean)
+        {
+            operators.add("-")
+        }
+
+        if(get_shared_preference("divide", "boolean", true) as Boolean)
+        {
+            operators.add("/")
+        }
+
+        Log.v("operators", operators.toString())
+
+        var operator = operators[Random.nextInt(0,operators.size)]
+        when(operator){
+            "*" -> { answer = (n1 * n2).toString()}
+            "+" -> { answer = (n1 + n2).toString()}
+            "-" -> {
+                if(n1 >= n2)
+                {
+                    answer = (n1 - n2).toString()
+                }else{
+                    operator = "*"
+                    answer = (n1 * n2).toString()
+                }
+            }
+            "/" ->{
+                if(n1 % n2 == 0 && n2 != 0)
+                {
+                    Log.v("operation: ", "$n1 $operator $n2")
+                    answer = (n1 / n2).toString()
+                }else{
+                    operator = "*"
+                    answer = (n1 * n2).toString()
+                }
+            }
+        }
 
         if(next)
         {
             next_answer = answer
-            next_operation = "$n1 $operand $n2 ="
+            next_operation = "$n1 $operator $n2 ="
             next_operation_textView.text = next_operation
 
         }else{
             present_answer = answer
-            present_operation = "$n1 $operand $n2 ="
+            present_operation = "$n1 $operator $n2 ="
             present_operation_textView.text = present_operation
         }
     }
@@ -163,35 +198,48 @@ class Calculatron : AppCompatActivity() {
         {
             rights++
             total_rights++
-            edit_shared_preference("rights", total_rights.toString())
+            edit_shared_preference("rights", total_rights, "int")
             rights_textView.text = rights.toString()
             return true
         }else{
             wrongs++
             total_wrongs ++
-            edit_shared_preference("wrongs", total_wrongs.toString())
+            edit_shared_preference("wrongs", total_wrongs, "int")
             wrongs_textView.text = wrongs.toString()
             return false
         }
 
     }
 
-    fun edit_shared_preference(key: String, value : String)
+    fun edit_shared_preference(key: String, value : Any, type: String)
     {
         with(shared_preferences.edit()){
-            putString(key, value)
+            when(type)
+            {
+                "int" -> putInt(key, value as Int)
+                "boolean" -> putBoolean(key, value as Boolean)
+                "double" -> putFloat(key, value as Float)
+                else -> putString(key, value as String)
+
+            }
             commit()
         }
     }
 
-    fun get_shared_preference(key: String) : String?
+    fun get_shared_preference(key: String, type: String, default : Any) : Any?
     {
-        return shared_preferences.getString(key, "0")
+        var res = when(type)
+        {
+            "int" -> shared_preferences.getInt(key, default as Int)
+            "boolean" -> shared_preferences.getBoolean(key, default as Boolean)
+            "double" -> shared_preferences.getFloat(key,default as Float)
+            else -> shared_preferences.getString(key, default as String)
+
+        }
+        Log.v("get", "${key}: ${res.toString()}")
+
+        return res
     }
-//    fun get_shared_preference_acertadas_falladas(key: String) : String?
-//    {
-//        return shared_preferences.getString(key, "0")
-//    }
 
     fun mark_past_answer(r: String)
     {
@@ -272,15 +320,22 @@ class Calculatron : AppCompatActivity() {
         configuration_imageView = findViewById(R.id.configuration_imageView)
 
 //        shared_preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
-//        shared_preferences = getSharedPreferences("shared.xml", 0)
+//        shared_preferences = getSharedPreferences("shared_prefs.xml", 0)
 //        shared_preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
-        shared_preferences = this.getSharedPreferences(
-            "com.example.practica_1", 0);
-        Log.v("shared", shared_preferences.toString())
-        total_rights = get_shared_preference("rights")!!.toInt()
-        total_wrongs = get_shared_preference("wrongs")!!.toInt()
-//        time = get_shared_preference("time")!!.toInt()
-        time = 20000
+//        shared_preferences = this.getPreferences( 0);
+//        Log.v("shared", shared_preferences.toString())
+//        shared_preferences = this.getSharedPreferences("shared_prefs", MODE_PRIVATE)
+
+        shared_preferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE)
+
+        total_rights = get_shared_preference("rights", "int", 0) as Int
+        total_wrongs = get_shared_preference("wrongs", "int", 0) as Int
+        time = get_shared_preference("time_left", "int", 30000) as Int
+        max = get_shared_preference("max", "int", 10) as Int
+        min = get_shared_preference("min", "int", 0) as Int
+
+        Log.v("max", max.toString())
+        Log.v("min", min.toString())
         val elementIds = arrayOf("zero", "one", "two", "three", "four", "five", "six", "seven", "eight","nine")
 
         for (elementId in elementIds) {
